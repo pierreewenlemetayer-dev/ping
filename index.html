@@ -44,7 +44,7 @@ if(orb.y>H+orb.r){lost.push(orb);break;}
 if(lost.length){balls=balls.filter(b=>!lost.includes(b));ball=balls[0];if(balls.length===0){loseLife(false);updateHud();return;}}
 updateHud();}
 function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#101d34';ctx.fillRect(0,0,W,H);
-for(const b of bricks)if(b.alive){ctx.fillStyle=b.color;ctx.fillRect(b.x,b.y,brickW,brickH);if(b.power){ctx.fillStyle='#101d34';ctx.font='bold 16px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(({multi:'×2',rainbow:'★',grow:'↔',shrink:'><'})[b.power],b.x+brickW/2,b.y+brickH/2+1);}}
+for(const b of bricks)if(b.alive){ctx.fillStyle=b.color;ctx.fillRect(b.x,b.y,brickW,brickH);if(b.power){const stripes=b.power==='rainbow'?['#e56d80','#ed9b56','#edca61','#68c4ac','#62a8dd','#a88de1']:b.power==='multi'?['#e56d80','#ffffff']:b.power==='grow'?['#68c4ac','#ffffff']:['#ed9b56','#ffffff'];ctx.save();ctx.beginPath();ctx.rect(b.x,b.y,brickW,brickH);ctx.clip();const stripe=8;for(let i=-brickH;i<brickW+brickH;i+=stripe){ctx.fillStyle=stripes[Math.floor((i+brickH)/stripe)%stripes.length];ctx.beginPath();ctx.moveTo(b.x+i,b.y);ctx.lineTo(b.x+i+stripe,b.y);ctx.lineTo(b.x+i+stripe+brickH,b.y+brickH);ctx.lineTo(b.x+i+brickH,b.y+brickH);ctx.closePath();ctx.fill();}ctx.restore();}}
 ctx.textBaseline='alphabetic';ctx.textAlign='start';
 if(paddle){ctx.fillStyle='#f3f6ff';ctx.fillRect(paddle.x-paddle.w/2,paddle.y,paddle.w,paddle.h);}
 for(const orb of balls){ctx.beginPath();ctx.arc(orb.x,orb.y,orb.r,0,Math.PI*2);ctx.fillStyle=powerTime>0?'hsl('+((gameTime*600)%360)+' 100% 65%)':'#fff';ctx.fill();}
